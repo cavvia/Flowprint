@@ -25,8 +25,10 @@ How-To
 Dependencies
 ------------
 
-You'll need the [Processing][processing] visualisation framework.
+You'll need the [Processing][processing] visualisation framework. As well as the [ControlP5][controlp5] and [gicentre-utils][spatial] libraries.
 
 [processing]:http://processing.org
 [flowprint]:http://www.urbagram.net/v1/show/Flowprint
 [ncol]:http://lgl.sourceforge.net/#FileFormat
+[spatial]:http://code.google.com/p/gicentreutils/
+[controlp5]:http://www.sojamo.de/libraries/controlP5/
