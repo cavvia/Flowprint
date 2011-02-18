@@ -1,5 +1,6 @@
 /*
 * @class Route
+* @desc An undirected collection of transport access nodes (Stops)
 */
 
 class Route {

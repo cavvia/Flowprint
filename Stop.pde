@@ -1,6 +1,8 @@
+
 /*
- * @class Stop
- */
+* @class Stop
+* @desc Transport access node
+*/
 
 class Stop {
 	public int ID;

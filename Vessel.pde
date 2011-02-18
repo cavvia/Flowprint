@@ -1,4 +1,9 @@
 
+/**
+* @class Vessel
+* @desc Transport vessel/vehicle
+*/
+
 class Vessel 
 {
 	
