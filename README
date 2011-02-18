@@ -1,9 +1,10 @@
-Visualise the dynamics of spatial networks in Processing. Originally produced to deal with urban transport networks.
+Flowprint
+=========
 
-/* =============== */
-/* = Description = */ 
-/* =============== */
+Visualise dynamics of spatial networks in Processing. Originally produced to deal with urban transport networks.
 
+Feature Summary
+---------------
 * Import network representations in NCOL format, including weighted networks based on euclidean distances.
 * Visualise topology of spatial networks.
 * Visualise node attributes.
@@ -11,14 +12,12 @@ Visualise the dynamics of spatial networks in Processing. Originally produced to
 * Visualise flows of 'vessels' or 'passengers' on network.
 * Import real trip information for playback of flows.
 
-/* ============ */
-/* = Examples = */ 
-/* ============ */
-
+Examples
+--------
 See http://www.urbagram.net/v1/show/Flowprint
 
-/* ========== */
-/* = How To = */ 
-/* ========== */
+
+How-To
+------
 
 *Coming Soon*
