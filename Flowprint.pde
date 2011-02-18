@@ -1,10 +1,30 @@
     import processing.pdf.*;
-
     import processing.video.*;
     import org.gicentre.utils.spatial.*;
     import controlP5.*;
     import processing.opengl.*;
 
+  /**
+  * CONFIGURATION START
+  */
+   
+    float BUS_SPEED = 0.2;
+    float MAX_SPEED = 1.40;    
+    static final int PANE_WIDTH = 1000;
+    static final int PANE_HEIGHT = 800;  
+    static final int DEFAULT_NET = 0;
+    static final String ROOT_DIR = "/casa/Flowprint"; //change this
+    
+    boolean debug = true;
+    boolean video = false;
+    boolean attribs = false; //whether to visualise node attributes
+    boolean trueAspectRatio = false;
+    boolean trails = false;
+    
+  /**
+  * CONFIGURATION END
+  */
+    
     int MaxY=0;
     int MaxX=0;
     String MaxYIndex;
@@ -15,17 +35,7 @@
     String MinXIndex;  
     int globalOffset = 1000;
     int refreshRate = 100;
-    float BUS_SPEED = 0.2;
-    float MAX_SPEED = 1.40;    
-    int PANE_WIDTH = 1000;
-    int PANE_HEIGHT = 800;  
-    int DEFAULT_NET = NetworkImporter.LDNSUB;
-    boolean trails = false;
     static int DEBUG_WARN = 2;
-    boolean debug = true;
-    boolean video = false;
-    boolean attribs = false; //whether to visualise node attributes
-    boolean trueAspectRatio = false;
     String[] debugLevels;
         
     Network net;
@@ -149,5 +159,3 @@
         out.append(glue).append(s[x]);
         return out.toString();
     }
-
-

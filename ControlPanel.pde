@@ -54,13 +54,12 @@
        this.gui.addMultiList("netselect",x,300,80,14).setId(ControlPanel.NET_SELECTOR);
        MultiList l = (MultiList)controlP5.controller("netselect");
        MultiListButton b = l.add("SELECT NETWORK",1);
-       b.add("LDNBUS",NetworkImporter.LDNBUS).setLabel("LDN BUS");       
-       b.add("LDN",NetworkImporter.LDNSUB).setLabel("LDN SUBWAY");
-       b.add("PAR",NetworkImporter.PARSUB).setLabel("PAR SUBWAY");
-       b.add("NYC",NetworkImporter.NYCSUB).setLabel("NYC SUBWAY");       
-       b.add("LDNCYCLE",NetworkImporter.LDNCYCLE).setLabel("LDN CYCLEHIRE");        
-       b.add("LDNCYCLEWK",NetworkImporter.LDNCYCLEWK).setLabel("LDN CYCLEHIRE WK");         
-       b.add("LDNCYCLEWKEND",NetworkImporter.LDNCYCLEWKEND).setLabel("LDN CYCLEHIRE WKEND");                
+       List<String> networks = net.getNetworkNames();
+       int count= 0;
+       for(String network : networks) {
+         b.add(network,count).setLabel(network.toUpperCase());                
+         count++;
+       }
        this.gui.addTextlabel("author","Flowprint [0.3]. Anil Bawa-Cavia 2010",x,height-20);               
       }
       

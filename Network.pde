@@ -131,6 +131,11 @@ class Network {
         return ydim;
     }
     
+    public List<String> getNetworkNames()
+    {
+      return this.importer.getNetworkNames();
+    }
+    
     public void findNode(float x,float y) {
       float yOffset = this.getYOffset();
       float xOffset = this.getXOffset();
