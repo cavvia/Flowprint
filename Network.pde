@@ -34,7 +34,7 @@ class Network
 
   public void run() {
 
-      if(cp.flags[ControlPanel.VEHICLES]) {
+      if(cp.flags[ControlPanel.VEHICLES] && this.shouldRenderFlows()) {
           this.updateVessels();
       }
 
@@ -259,6 +259,11 @@ class Network
   public boolean isIncrementalGrowth() 
   {
       return cp.growth == ControlPanel.INCREMENTAL_GROWTH; 
+  }
+  
+  public boolean shouldRenderFlows()
+  {
+      return cp.mode == ControlPanel.FLOW;     
   }
 
   public boolean isEvenHeadway() 

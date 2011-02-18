@@ -12,7 +12,7 @@
     float MAX_SPEED = 1.40;    
     static final int PANE_WIDTH = 1000;
     static final int PANE_HEIGHT = 800;  
-    static final int DEFAULT_NET = 0;
+    static final int DEFAULT_NET = 4;
     static final String ROOT_DIR = "/casa/Flowprint"; //change this
     
     boolean debug = true;
