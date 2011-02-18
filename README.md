@@ -14,10 +14,18 @@ Feature Summary
 
 Examples
 --------
-See http://www.urbagram.net/v1/show/Flowprint
+See the [London Bus Flowprint][flowprint]
 
 
 How-To
 ------
 
 *Coming Soon*
+
+Dependencies
+------------
+
+You'll need the [Processing][processing] visualisation framework.
+
+[processing]:http://processing.org
+[flowprint]:http://www.urbagram.net/v1/show/Flowprint
