@@ -11,7 +11,8 @@ class ControlPanel
   int myColorBackground = color(#000000);
   public ControlP5 gui;
   public boolean[] flags;
-
+  public boolean tripsFlag = true;
+  
   //GUI COMPONENT ID
   public static final int NODES = 0;
   public static final int ROUTES = 1;
@@ -24,7 +25,8 @@ class ControlPanel
   public static final int GROWTH = 8;
   public static final int NET_SELECTOR = 9;
   public static final int MODE = 10;    
-  
+  public static final int TRIPS = 11;    
+    
   int mode;
   public static final int TOPOLOGY = 1;
   public static final int FLOW = 2;  
@@ -72,6 +74,7 @@ class ControlPanel
      b.add(network,count).setLabel(network.toUpperCase());                
      count++;
     }
+    this.gui.addToggle("PLAY TRIPS",false,x,370,80,14).setId(ControlPanel.TRIPS);
     this.gui.addTextlabel("author","Flowprint. Anil Bawa-Cavia 2010",x,height-20);               
   }
 
@@ -150,8 +153,7 @@ class ControlPanel
     println("a toggle event.");
   }
 
-  void controlEvent(ControlEvent theEvent) {
-  
+  void controlEvent(ControlEvent theEvent) {  
     try {
       if(theEvent.group().name() == "dynamics") {
         this.dynamics = (int)(theEvent.group().value());
@@ -193,6 +195,12 @@ class ControlPanel
       case ControlPanel.NET_SELECTOR:
       net.refreshNetwork((int)theEvent.value());
       return;              
+      case ControlPanel.TRIPS:
+      this.tripsFlag = ((int)theEvent.value() > 0) ? true : false;
+      if(this.tripsFlag) {
+        net.startTripsMode();
+      }
+      return;
       case ControlPanel.HEADWAY:
       return;
       case ControlPanel.SPEED:

@@ -2,10 +2,10 @@
 /**
 * @class NetworkImporter
 * @desc Constructs a collection of routes from an NCOL format network representation.
-* @desc Imports geographic location of nodes.
+* @desc Imports geographic location of nodes via a CSV file.
 */
 
-class NetworkImporter 
+class NetworkImporter extends Importer
 {
 
   String ncolSuffix = "ncol";
@@ -14,14 +14,14 @@ class NetworkImporter
   public static final int ID_INDEX = 0;
   public static final int NAME_INDEX = 6;      
   public static final String DATA_DIR = "dat";
-  private java.util.List headers;
   private HashMap indexes;
   int[] attribList;
   public int[][] weights;
   public java.util.List networkNames;      
   private String filePrefix;      
   private int idIndex,nameIndex,eastingIndex,longIndex,latIndex,northingIndex;                              
-
+  private TripsImporter tripsImporter;
+  
   public NetworkImporter(int id)
   {        
    this.scanDataDirectory();
@@ -62,7 +62,7 @@ class NetworkImporter
       stops[i-startIndex] = oStop;
     }
 
-    for (int i = 0; i < stops.length; i++) {                        
+    for (int i = 0; i < stops.length; i++) {
       stops[i].locate();        
     }
 
@@ -96,6 +96,11 @@ class NetworkImporter
   return this.networkNames;
   }
 
+  public String getNetworkName()
+  {
+    return this.filePrefix;
+  }
+
   public void setFilePrefix(int networkID)
   {
    this.filePrefix = (String)networkNames.get(networkID);
@@ -117,11 +122,6 @@ class NetworkImporter
    String suffix = "csv";
    return "./" + NetworkImporter.DATA_DIR + "/" +this.filePrefix + "_" + attrib + "." + suffix;
   }         
-
-  private boolean hasHeaders()
-  {
-     return this.headers.contains("id") || this.headers.contains("line") || this.headers.contains("name"); 
-  }
 
   private void initIndexes()
   {
@@ -154,14 +154,6 @@ class NetworkImporter
     return this.latIndex;
   }     
 
-  private void parseHeaders(String[] head)
-  {
-    this.headers = Arrays.asList(head);    
-    for (int i=0;i < this.headers.size(); i++) {
-       headers.set(i,clean((String)headers.get(i)));
-    }
-  }
-
   public int getNorthingIndex()
   {
    if(this.northingIndex == -1) {              
@@ -176,15 +168,6 @@ class NetworkImporter
     this.eastingIndex = (headers.indexOf("easting") > -1) ? headers.indexOf("easting") : NetworkImporter.EASTING_INDEX;
    }
     return this.eastingIndex;        
-  }
-
-  private String clean(String s)
-  {
-   if(s.length() < 2) return s;
-   if(s.substring(0,1).equals("\""))
-      return ltrim(s.substring(1,s.length()-1)); 
-   else 
-     return ltrim(s);
   }
 
   public int getIdIndex()
@@ -203,6 +186,33 @@ class NetworkImporter
     return this.nameIndex;        
   }
 
+  private String getTripsFilePath() {
+    //return ROOT_DIR + "/" + NetworkImporter.DATA_DIR + "/xaa";
+    return ROOT_DIR + "/" + NetworkImporter.DATA_DIR + "/" + this.filePrefix + "_trips.csv";
+  }
+  
+  public boolean hasTrips() {
+    try {
+      File file = new File(this.getTripsFilePath());
+      return file.isFile();
+    } catch(Exception o) {
+       return false; 
+      }
+  }  
+
+  public void loadTrips() {
+    try {
+      this.tripsImporter = new TripsImporter(this.getTripsFilePath());
+      //this.tripsImporter.showTrips();
+    } catch(Exception o) {
+      debug("ERROR LOADING TRIPS: " + o.getMessage());
+    }
+  }
+  
+  public List getTrips(int dayOfWeek)
+  {
+    return this.tripsImporter.getTrips(dayOfWeek);
+  }
 
   public Route[] loadRoutes()
   {
@@ -337,7 +347,7 @@ class NetworkImporter
     for (int i = 0; i < routeLines.length; i++) {
       String[] pieces = split(routeLines[i], ',');
       Route route = new Route(pieces[0]);
-      route.addStops(pieces);
+      route.addStops(pieces,true);
       routes[i] = route;
     }
 

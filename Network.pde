@@ -3,7 +3,7 @@
 * @desc The network pane
 */
 
-class Network 
+class Network
 {
 
   Route[] routes;
@@ -22,7 +22,8 @@ class Network
   public final float SIM_SPEED = 10;
   NetworkImporter importer;   
   public int selectedNode = 0;
-
+  private List tripVessels;
+  
   public Network()
   {
   }
@@ -35,7 +36,7 @@ class Network
   public void run() {
 
       if(cp.flags[ControlPanel.VEHICLES] && this.shouldRenderFlows()) {
-          this.updateVessels();
+          this.updateVessels();          
       }
 
 
@@ -72,7 +73,10 @@ class Network
       this.importNet(networkID);
       int t = this.maxBusNum + 1;
       this.vessels = new Vessel[t];
-      this.createVessels();              
+      this.createVessels();            
+      if(this.shouldShowTrips()) {
+        this.startTripsMode();
+      }  
   }
 
   public void importNet(int netID) {
@@ -82,7 +86,21 @@ class Network
       if(this.hasAttribs()) {
           this.importer.loadDataLayer();
       }
-  }      
+      
+      if(this.importer.hasTrips()) {
+        this.importer.loadTrips();
+      }
+  }
+  
+  public boolean shouldShowTrips() 
+  {
+    return cp.tripsFlag && this.importer.hasTrips();
+  }
+   
+  public String getName()
+  {
+    return this.importer.getNetworkName();
+  }
 
   public float getAttribById(int ID) {
       return this.importer.getAttribByID(ID); 
@@ -213,6 +231,7 @@ class Network
   public void createVessel(Route route)
   { 
       if(this.peaked) return;
+      //if(this.shouldShowTrips()) return;
 
       if((this.activeVesselNum < this.maxBusNum)) {
           if(route.busCount < route.getMaxBusCount(this.maxBusNum/this.routeNum)) {
@@ -239,12 +258,44 @@ class Network
       this.activeVesselNum--;        
   }
 
+  public void startTripsMode()
+  {
+    //start timer
+    debug("STARTING TRIPS MODE");
+    this.tripVessels = new ArrayList<Vessel>();
+    this.createTripVessels();
+  }
+  
+  private void createTripVessels()
+  {
+    int dayOfWeek = 3;
+    List trips = this.importer.getTrips(dayOfWeek);
+    for(int i=0;i<800;i++) {
+      Trip trip = (Trip)trips.get(i);
+      debug(trip.time);
+      Route r = trip.getRoute();
+      if(r != null) {
+        Vessel v = new Vessel(r);
+        this.tripVessels.add(v);
+        r.printStops();
+      }
+    }
+    debug("Loaded " + this.tripVessels.size() + " trips");
+  }
+
   private void updateVessels()
   {
+    if(this.shouldShowTrips()) {
+      for (int i=0; i < this.tripVessels.size(); i++) {
+          Vessel v = (Vessel)this.tripVessels.get(i);
+          v.update();
+      }      
+    } else {
       for (int i = 0; i < this.activeVesselNum; i++) {    
           this.vessels[i].update();
       }
-      cp.update();                  
+    }
+    cp.update();    
   }
 
 

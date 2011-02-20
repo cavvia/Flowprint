@@ -14,7 +14,8 @@
     static final int PANE_HEIGHT = 800;  
     static final int DEFAULT_NET = 4;
     static final String ROOT_DIR = "/casa/Flowprint"; //change this
-    
+    static final String VIDEO_FILE = "flowprint8.mov";
+    static final String PDF_FILE = "reach-vis.pdf";
     boolean debug = true;
     boolean video = false;
     boolean attribs = false; //whether to visualise node attributes
@@ -57,16 +58,18 @@
         debugLevels[DEBUG_WARN] = "error";
 
         textFont(myFont);
-        net = new Network();  
-        net.init();
-        if(video) mm = new MovieMaker(this, width, height, "flowprint8.mov",
-        30, MovieMaker.SORENSON, MovieMaker.HIGH);
-
-        background(#000000);
-        fill(#FFFFFF);      
+        
         controlP5 = new ControlP5(this);
         //debug(combine(PGraphicsPDF.listFonts(),","));
         cp = new ControlPanel(controlP5);        
+        
+        net = new Network();  
+        net.init();
+        if(video) mm = new MovieMaker(this, width, height, VIDEO_FILE,
+        30, MovieMaker.SORENSON, MovieMaker.HIGH);
+
+        background(#000000);
+        fill(#FFFFFF);              
         cp.draw();
     }
     
@@ -109,7 +112,7 @@
     void keyPressed() {
         if(key==ENTER) { 
             debug("enter pressed"); 
-            beginRecord(PDF, "reach-vis.pdf");      
+            beginRecord(PDF, PDF_FILE);      
             draw();
         }
     }

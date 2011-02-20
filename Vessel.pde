@@ -212,7 +212,7 @@ class Vessel
 	
 	public void drawme()
 	{
-		int alphax = trails ? 10 : 40;
+		int alphax = trails ? 3 : 40;
 		fill(#FFFFFF,alphax);
 		stroke(#FFFFFF,alphax);		
 		ellipse(this._x + net.getXOffset(),this._y - net.getYOffset(),1,1);	

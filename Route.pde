@@ -39,12 +39,17 @@ class Route {
     return this.totalLength;
   }
 
-  public void addStops(String[] pieces) 
+  public void addStops(String[] pieces,Boolean named) 
   {
-    this.stops = new String[pieces.length-1];
-    this.name = pieces[0];
-    for(int i =1; i < pieces.length;i++) {
-      this.stops[i-1]= (pieces[i]);
+    int index = named ? 1: 0;
+    this.stops = new String[pieces.length-index];    
+    
+    if(named) {
+      this.name = pieces[0];
+    }
+            
+    for(int i =index; i < pieces.length;i++) {
+      this.stops[i-index]= (pieces[i]);
     } 
     this.constructed = true;
   }
@@ -168,10 +173,14 @@ class Route {
     for (int i=0;i< this.stops.length;i++) {
 
       Stop s = (Stop)net.aStop.get(ltrim(this.stops[i]));
+      try {
       out += s.name + "(";
 
       out += this.stops[i];
       out += "),";
+      }catch(Exception o) {
+        
+      }
     }
     debug(this.name + ": " +out);
   }
