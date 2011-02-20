@@ -23,6 +23,7 @@ class Network
   NetworkImporter importer;   
   public int selectedNode = 0;
   private List tripVessels;
+  private TripsTimer timer;
   
   public Network()
   {
@@ -75,6 +76,7 @@ class Network
       this.vessels = new Vessel[t];
       this.createVessels();            
       if(this.shouldShowTrips()) {
+        this.timer = new TripsTimer();
         this.startTripsMode();
       }  
   }
@@ -264,19 +266,31 @@ class Network
     debug("STARTING TRIPS MODE");
     this.tripVessels = new ArrayList<Vessel>();
     this.createTripVessels();
+    this.timer.start();
+  }
+  
+  public float getPixelsPerMeter()
+  {
+    return new Float(PANE_WIDTH)/(MaxX - MinX);
+  }
+  
+  public float getTripSpeed()
+  {
+    return this.timer.speed;
   }
   
   private void createTripVessels()
   {
     int dayOfWeek = 3;
     List trips = this.importer.getTrips(dayOfWeek);
-    for(int i=0;i<800;i++) {
+    for(int i=0;i<1000;i++) {
       Trip trip = (Trip)trips.get(i);
-      debug(trip.time);
+      debug(trip.startTime);
       Route r = trip.getRoute();
       if(r != null) {
-        Vessel v = new Vessel(r);
+        Vessel v = new Vessel(trip);
         this.tripVessels.add(v);
+        this.timer.schedule(v,trip);
         r.printStops();
       }
     }
@@ -286,10 +300,7 @@ class Network
   private void updateVessels()
   {
     if(this.shouldShowTrips()) {
-      for (int i=0; i < this.tripVessels.size(); i++) {
-          Vessel v = (Vessel)this.tripVessels.get(i);
-          v.update();
-      }      
+      this.timer.update();
     } else {
       for (int i = 0; i < this.activeVesselNum; i++) {    
           this.vessels[i].update();
@@ -307,9 +318,14 @@ class Network
       }
   }
 
+  public boolean isInTripsMode()
+  {
+    return this.shouldShowTrips();
+  }
+
   public boolean isIncrementalGrowth() 
   {
-      return cp.growth == ControlPanel.INCREMENTAL_GROWTH; 
+      return cp.growth == ControlPanel.INCREMENTAL_GROWTH && !this.isInTripsMode(); 
   }
   
   public boolean shouldRenderFlows()

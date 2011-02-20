@@ -34,7 +34,7 @@ class TripsImporter extends Importer
       String tripStr = tripLines[i];
       String[] tripInfo = split(tripStr,",");
       int dayOfWeek =  int(tripInfo[0]);
-      this.trips[dayOfWeek].add(new Trip(dayOfWeek,int(tripInfo[1]),int(tripInfo[2]),tripInfo[3]));
+      this.trips[dayOfWeek].add(new Trip(dayOfWeek,int(tripInfo[1]),int(tripInfo[2]),tripInfo[3],tripInfo[4]));
     }
     debug("LOADED TRIPS");
   }

@@ -14,12 +14,15 @@ class Vessel
 	float _x;
 	float _y;
 	float linkLength;
+	float routeLengthPx;
+	private float speed;
 
 	Point destCoords;
+	Point originCoords;
 	Stop dest;
 	Stop origin;			
 	String[] stops;
-	
+	Trip trip;
 	int journeyNum = 1;
 	int nullStops = 0;
 	
@@ -29,6 +32,20 @@ class Vessel
 		//debug("created vessel on " + route.name + " route");
 		this._x = 0;
 		this._y = 0;
+      this.setSpeed(BUS_SPEED);		  
+	}
+	
+	public Vessel(Trip trip) {
+	  this.route = trip.getRoute();
+	  this.trip = trip;
+	  this.stops = this.route.getStops().clone();
+		//debug("created vessel on " + route.name + " route");
+		this._x = 0;
+		this._y = 0;
+		this.routeLengthPx = this.route.getRouteLengthPixels();
+		Float f = new Float((this.routeLengthPx/trip.getDuration())*net.getTripSpeed());
+    this.setSpeed(f);
+    debug("speed is "+ this.speed);
 	}
 	
 	private void placeAtOrigin()
@@ -49,11 +66,11 @@ class Vessel
 		 return;
 		}
 		
-		Point originCoords = dest.getCoords();
-		this.origin = dest;				
-		this._x = originCoords.x;
-		this._y = originCoords.y;
-		//debug(this.dest.getId() + " origin");
+		this.originCoords = dest.getCoords();
+		this.origin = dest;
+		this._x = this.originCoords.x;
+		this._y = this.originCoords.y;
+		//debug(this.dest.getId() + " origin");		
 		this.drawme(); 
 	}
 	
@@ -82,6 +99,10 @@ class Vessel
 		this.drawme();
 	}
 	
+	private void setSpeed(float speed) {
+	  this.speed = speed;
+	}
+	
 	private void printTrajectory()
 	{ 
 				if(!(dest == null)) {
@@ -94,21 +115,31 @@ class Vessel
 	private void moveToDest()
 	{
 		float xdiff,ydiff;
-		if(cp.dynamics == ControlPanel.SWARM) {
-			xdiff = (this.destCoords.x - this._x) * BUS_SPEED;
-			ydiff = (this.destCoords.y - this._y) * BUS_SPEED;
+		if(net.isInTripsMode()) {
+		  float xDist = this.destCoords.x - this.originCoords.x;
+		  float yDist = this.destCoords.y - this.originCoords.y;
+      //debug("linkdist "+ this.linkLength + " " + this.routeLengthPx);
+      float edgeLength = (this.linkLength > 0) ? this.linkLength : this.routeLengthPx;
+  			xdiff = xDist * this.speed/edgeLength;
+  			ydiff = yDist * this.speed/edgeLength;        
+		}
+		else if(cp.dynamics == ControlPanel.SWARM) {
+			xdiff = (this.destCoords.x - this._x) * this.speed;
+			ydiff = (this.destCoords.y - this._y) * this.speed;
 		} else {
 			if(!this.beyondMidPoint()) { //accelerate to midpoint
-				xdiff = 0.05 + this.distanceFromOrigin() * BUS_SPEED/80;				
-				ydiff = 0.05 + this.distanceFromOrigin() * BUS_SPEED/80;
+				xdiff = 0.05 + this.distanceFromOrigin() * this.speed/80;				
+				ydiff = 0.05 + this.distanceFromOrigin() * this.speed/80;
 			} else { //decelerate to dest
-				xdiff = (this.destCoords.x - this._x) * BUS_SPEED;
-				ydiff = (this.destCoords.y - this._y) * BUS_SPEED;
+				xdiff = (this.destCoords.x - this._x) * this.speed;
+				ydiff = (this.destCoords.y - this._y) * this.speed;
 			}
 		}
 		
-		if(abs(xdiff) > MAX_SPEED) xdiff *= MAX_SPEED/abs(xdiff);
-		if(abs(ydiff) > MAX_SPEED) ydiff *= MAX_SPEED/abs(ydiff);
+		if(!net.isInTripsMode()) {
+		  if(abs(xdiff) > MAX_SPEED) xdiff *= MAX_SPEED/abs(xdiff);
+		  if(abs(ydiff) > MAX_SPEED) ydiff *= MAX_SPEED/abs(ydiff);
+	  }
 		
 		this._x += xdiff;
 		this._y += ydiff;				
@@ -170,8 +201,10 @@ class Vessel
         if(destIndex < this.getStops().length-1) {
             Stop orig = this.getDestination();
             if(orig != null) this.origin = orig;
+            this.originCoords = this.origin.getCoords();
             destIndex++;
             this.refreshDestination();
+            this.calcLinkLength();	            
             if(cp.dynamics == ControlPanel.BUS) {
                 this.calcLinkLength();	
             }
@@ -212,9 +245,14 @@ class Vessel
 	
 	public void drawme()
 	{
-		int alphax = trails ? 3 : 40;
+		int alphax = trails ? 5 : 40;
 		fill(#FFFFFF,alphax);
 		stroke(#FFFFFF,alphax);		
+		
+    if(net.isInTripsMode() && this.journeyNum > 1) {
+      return;//no render
+    }
+		
 		ellipse(this._x + net.getXOffset(),this._y - net.getYOffset(),1,1);	
 	}
 

@@ -13,6 +13,7 @@
     static final int PANE_WIDTH = 1000;
     static final int PANE_HEIGHT = 800;  
     static final int DEFAULT_NET = 4;
+    static final String DEFAULT_MODE = "flow";
     static final String ROOT_DIR = "/casa/Flowprint"; //change this
     static final String VIDEO_FILE = "flowprint8.mov";
     static final String PDF_FILE = "reach-vis.pdf";
@@ -20,7 +21,7 @@
     boolean video = false;
     boolean attribs = false; //whether to visualise node attributes
     boolean trueAspectRatio = false;
-    boolean trails = false;
+    boolean trails = true;
     
   /**
   * CONFIGURATION END

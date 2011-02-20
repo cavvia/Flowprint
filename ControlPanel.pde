@@ -123,7 +123,7 @@ class ControlPanel
     r3.setId(ControlPanel.MODE);
     r3.addItem("topology",ControlPanel.TOPOLOGY);
     r3.addItem("flow",ControlPanel.FLOW);
-    r3.activate("topology"); 
+    r3.activate(DEFAULT_MODE); 
     r3.setItemsPerRow(2);
     r3.setSpacingColumn(80);      
   }

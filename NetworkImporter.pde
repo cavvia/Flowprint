@@ -187,8 +187,8 @@ class NetworkImporter extends Importer
   }
 
   private String getTripsFilePath() {
-    //return ROOT_DIR + "/" + NetworkImporter.DATA_DIR + "/xaa";
-    return ROOT_DIR + "/" + NetworkImporter.DATA_DIR + "/" + this.filePrefix + "_trips.csv";
+    return ROOT_DIR + "/" + NetworkImporter.DATA_DIR + "/xaa";
+    //return ROOT_DIR + "/" + NetworkImporter.DATA_DIR + "/" + this.filePrefix + "_trips.csv";
   }
   
   public boolean hasTrips() {

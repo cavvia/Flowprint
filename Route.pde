@@ -14,6 +14,7 @@ class Route {
   public int maxBusCount = 0;
   private String originID;
   private boolean constructed = false;
+  public float length;
   java.util.List stopList;
 
   public Route(String name) {
@@ -37,6 +38,11 @@ class Route {
       }           
     }
     return this.totalLength;
+  }
+  
+  public float getRouteLengthPixels()
+  {
+    return this.getRouteLength() * net.getPixelsPerMeter();
   }
 
   public void addStops(String[] pieces,Boolean named) 
@@ -135,6 +141,16 @@ class Route {
     //this.printStops();
     this.constructed = true;
   }
+  
+  public Stop getDestination()
+  {
+    return (Stop)net.aStop.get(this.stops[this.stops.length-1]);
+  }
+  
+  public Stop getOrigin()
+  {
+    return (Stop)net.aStop.get(this.stops[0]);
+  }
 
   /*
   * @desc Recursive path finding algorithm
@@ -165,6 +181,22 @@ class Route {
   private boolean isOrigin(String id)
   {
     return this.originID.equals(id); 
+  }
+  
+  /**
+  * @return Length of trip, in pixels
+  */
+  public double getLength()
+  {
+    Stop origin = this.getOrigin();
+    Stop dest = this.getDestination();
+    if(origin!= null && dest!= null) {
+      this.length = sqrt(pow(abs(dest.getCoords().x - origin.getCoords().x),2) + pow(abs(dest.getCoords().y - origin.getCoords().y),2));
+      return this.length;
+    } else {
+      debug("NO ORIGIN " + origin.ID);
+      return 0.0;      
+    }
   }
 
   private void printStops() 
