@@ -25,13 +25,13 @@ How-To
 
 For basic topology and simulated flows functionality, you need two plain-text files:
 
-* Place an [NCOL][ncol] network representation in the 'dat' subfolder, with the naming convention <MyNetworkName>.ncol
-* Place a CSV file with "latitude", "longitude" (or alternatively, "northing"/"easting") and "id" headers describing the location of nodes in the 'dat' subfolder, with the naming convention <MyNetworkName>_stops.csv
+* Place an [NCOL][ncol] network representation in the 'dat' subfolder, with the naming convention MyNetworkName.ncol
+* Place a CSV file with "latitude", "longitude" (or alternatively, "northing"/"easting") and "id" headers describing the location of nodes in the 'dat' subfolder, with the naming convention MyNetworkName_stops.csv
 * The station ID's in the previous two files should correspond.
 
 For trips:
 
-* Add a trips CSV file in the 'dat' subfolder, with the naming convention <MyNetworkName>.trips, of the format:
+* Add a trips CSV file in the 'dat' subfolder, with the naming convention MyNetworkName.trips, of the format:
 	
 	TripID, originID, destID, startTime, endTime
 
@@ -41,7 +41,7 @@ For trips:
 
 Where each path is a comma delimited list of node IDs. The file describes a matrix Tij where each entry describes the shortest path from node i to node j.
 
-* Flowprint will search for your shortest paths file in the 'dat' subfolder, with naming convention <MyNetworkName>_shortest_paths.rdat
+* Flowprint will search for your shortest paths file in the 'dat' subfolder, with naming convention MyNetworkName_shortest_paths.rdat
 
 
 Dependencies
