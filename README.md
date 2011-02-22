@@ -43,6 +43,8 @@ For trips:
 * This gives Flowprint the routing information required to visualise a trip from an origin to a destination.
 
 * Flowprint will search for your shortest paths file in the 'dat' subfolder, with naming convention MyNetworkName_shortest_paths.rdat
+* Support for multiple trip files exist. More doc on that soon.
+
 
 Configuration:
 
