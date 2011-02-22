@@ -37,9 +37,9 @@ For trips:
 
 * The network will then try to load a shortest path description file. You can produce this using [iGraph][igraph]. This is a tab delimited (TSV) file of the form:
 
-[PATH1]\t[PATH2]\t[PATH3]
+	[PATH1]\t[PATH2]\t[PATH3]
 
-Where each path is a comma delimited list of node IDs. The file describes a matrix Tij where each entry describes the shortest path from node i to node j.
+Where each path is a comma delimited list of node IDs. The file describes a matrix Tij where each entry describes the shortest path from node i to node j. New rows in the matrix are delimited by a newline.
 
 * Flowprint will search for your shortest paths file in the 'dat' subfolder, with naming convention MyNetworkName_shortest_paths.rdat
 
