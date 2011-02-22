@@ -44,6 +44,10 @@ For trips:
 
 * Flowprint will search for your shortest paths file in the 'dat' subfolder, with naming convention MyNetworkName_shortest_paths.rdat
 
+Configuration:
+
+* Coming soon...
+
 
 Dependencies
 ------------
