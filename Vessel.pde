@@ -26,6 +26,10 @@ class Vessel
 	int journeyNum = 1;
 	int nullStops = 0;
 	
+	float xDist;
+	float yDist;
+	float edgeLength;
+	
 	public Vessel(Route route) {
 		this.route = route;		
 		this.stops = this.route.getStops().clone();
@@ -116,12 +120,9 @@ class Vessel
 	{
 		float xdiff,ydiff;
 		if(net.isInTripsMode()) {
-		  float xDist = this.destCoords.x - this.originCoords.x;
-		  float yDist = this.destCoords.y - this.originCoords.y;
-      //debug("linkdist "+ this.linkLength + " " + this.routeLengthPx);
-      float edgeLength = (this.linkLength > 0) ? this.linkLength : this.routeLengthPx;
-  			xdiff = xDist * this.speed/edgeLength;
-  			ydiff = yDist * this.speed/edgeLength;        
+        this.edgeLength = (this.linkLength > 0) ? this.linkLength : this.routeLengthPx;		  
+  			xdiff = this.xDist * this.speed/edgeLength;
+  			ydiff = this.yDist * this.speed/edgeLength;        
 		}
 		else if(cp.dynamics == ControlPanel.SWARM) {
 			xdiff = (this.destCoords.x - this._x) * this.speed;
@@ -205,6 +206,12 @@ class Vessel
             destIndex++;
             this.refreshDestination();
             this.calcLinkLength();	            
+            if(net.isInTripsMode()) {
+      		    this.xDist = this.destCoords.x - this.originCoords.x;
+        		  this.yDist = this.destCoords.y - this.originCoords.y;
+              //debug("linkdist "+ this.linkLength + " " + this.routeLengthPx);
+            }
+            
             if(cp.dynamics == ControlPanel.BUS) {
                 this.calcLinkLength();	
             }
@@ -245,7 +252,7 @@ class Vessel
 	
 	public void drawme()
 	{
-		int alphax = trails ? 5 : 40;
+		int alphax = trails ? 7 : 30;
 		fill(#FFFFFF,alphax);
 		stroke(#FFFFFF,alphax);		
 		

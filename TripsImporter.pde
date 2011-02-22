@@ -24,23 +24,49 @@ class TripsImporter extends Importer
     this.setShortestPaths();
   }
   
+  public TripsImporter (String[] filepath)
+  {
+    this.path = filepath[0];
+    this.trips = new List[8];
+    
+    for(int i=1;i<8;i++) {
+      this.trips[i] = new ArrayList<Trip>();
+    }
+    
+    this.load(filepath);
+    this.loadShortestPaths();
+    this.setShortestPaths();    
+  }
+
+  public void load(String[] filepath) {
+    for(int i=0;i<filepath.length;i++) {
+      this.load(filepath[i]);
+    }
+  }
+  
   public void load(String filepath) {
     debug("loading trips from " + filepath + "...");
     String[] tripLines = loadStrings(filepath); 
     debug("parsing " + tripLines.length + " trips...");
     this.parseHeaders(split(tripLines[0],","));            
     int startIndex = (this.hasHeaders()) ? 1 : 0;    
+    int count=0;
     for (int i = startIndex; i < tripLines.length; i++) {
       String tripStr = tripLines[i];
       String[] tripInfo = split(tripStr,",");
       int dayOfWeek =  int(tripInfo[0]);
-      this.trips[dayOfWeek].add(new Trip(dayOfWeek,int(tripInfo[1]),int(tripInfo[2]),tripInfo[3],tripInfo[4]));
+        if(dayOfWeek == 3) {
+          if(count%4 == 0) {
+            this.trips[dayOfWeek].add(new Trip(dayOfWeek,int(tripInfo[1]),int(tripInfo[2]),tripInfo[3],tripInfo[4]));
+          }
+          count++;
+        }
     }
     debug("LOADED TRIPS");
   }
   
   public void showTrips() {
-    for (int i=1;i<3; i++) {
+    for (int i=3;i<4; i++) {
       debug("DAY " + i);
       for(int j = 0; j < this.trips[i].size(); j++) {
         debug(this.trips[i].get(j).toString());

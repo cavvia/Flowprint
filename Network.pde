@@ -136,7 +136,7 @@ class Network
 
   public float getXOffset() 
   {
-      float x = (screen.width - PANE_WIDTH)/2 + 50;            
+      float x = (width - PANE_WIDTH)/2 + 50;            
       return x;
   }
 
@@ -283,7 +283,7 @@ class Network
   {
     int dayOfWeek = 3;
     List trips = this.importer.getTrips(dayOfWeek);
-    for(int i=0;i<1000;i++) {
+    for(int i=0;i<trips.size();i++) {
       Trip trip = (Trip)trips.get(i);
       debug(trip.startTime);
       Route r = trip.getRoute();

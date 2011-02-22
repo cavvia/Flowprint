@@ -77,6 +77,7 @@ class Stop {
 		float dim = net.getDimension();					
 		float dimY = net.getYDimension();					
 		float offset = video ? ControlPanel.WIDTH/2 : 0;
+		offset=0;
 		if(!trueAspectRatio) dimY = dim;		
 		this._x = int(map(this.easting,MinX,MaxX,offset,dim));
 		this._y = int(map(this.northing,MinY,MaxY,offset,dimY));
@@ -90,6 +91,7 @@ class Stop {
 
 	public Point getCoords() {
 		float offset = video ? ControlPanel.WIDTH/3 : 0;
+		offset=0;
 		return new Point(this._x,height-this._y);
 	}
 
@@ -105,7 +107,7 @@ class Stop {
 		fill(#007FFF,255);
 		stroke(#007FFF,0);
 		if(net.firstRun) {
-			fill(#FF0000,0);						
+			fill(#FF0000,0);
 			stroke(#FF0000,0);
 		}
 

@@ -26,7 +26,9 @@ class ControlPanel
   public static final int NET_SELECTOR = 9;
   public static final int MODE = 10;    
   public static final int TRIPS = 11;    
-    
+  public static final int TRAILS = 12; 
+  public static final int DEBUG = 13; 
+        
   int mode;
   public static final int TOPOLOGY = 1;
   public static final int FLOW = 2;  
@@ -74,7 +76,10 @@ class ControlPanel
      b.add(network,count).setLabel(network.toUpperCase());                
      count++;
     }
+    
     this.gui.addToggle("PLAY TRIPS",false,x,370,80,14).setId(ControlPanel.TRIPS);
+    this.gui.addToggle("TRAILS",false,x,400,80,14).setId(ControlPanel.TRAILS);    
+    this.gui.addToggle("DEBUG",false,x,430,80,14).setId(ControlPanel.DEBUG);
     this.gui.addTextlabel("author","Flowprint. Anil Bawa-Cavia 2010",x,height-20);               
   }
 
@@ -200,6 +205,12 @@ class ControlPanel
       if(this.tripsFlag) {
         net.startTripsMode();
       }
+      return;
+      case ControlPanel.TRAILS:
+      trails = ((int)theEvent.value() > 0) ? true : false;      
+      return;
+      case ControlPanel.DEBUG:
+      debug = ((int)theEvent.value() > 0) ? true : false;      
       return;
       case ControlPanel.HEADWAY:
       return;
