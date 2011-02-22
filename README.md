@@ -25,9 +25,10 @@ How-To
 
 For basic topology and simulated flows functionality, you need two plain-text files:
 
-* Place an [NCOL][ncol] network representation in the 'dat' subfolder, with the naming convention MyNetworkName.ncol
+* Place an [NCOL][ncol] network representation in the 'dat' subfolder, with the naming convention MyNetworkName.ncol. In default mode, the third column of this file is a 'line' variable describing the route number an edge belongs to. This is useful for public transit networks. In attributes mode the third column can be an edge weight (see below).
 * Place a CSV file with "latitude", "longitude" (or alternatively, "northing"/"easting") and "id" headers describing the location of nodes in the 'dat' subfolder, with the naming convention MyNetworkName_stops.csv.
 * The station IDs in the previous two files should correspond.
+* Simulated flows will be based on routes constructed by Flowprint from your NCOL file. Flowprint doesn't support loops or forks in routes right now. You'll have to define them as new routes.
 
 For trips:
 
