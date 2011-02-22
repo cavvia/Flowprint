@@ -19,8 +19,7 @@ Examples
 --------
 See the [London Bus Flowprint][flowprint] example.
 
-
-How-To
+Basic Setup
 ------
 
 For basic topology and simulated flows functionality, you need two plain-text files:
@@ -30,7 +29,8 @@ For basic topology and simulated flows functionality, you need two plain-text fi
 * The station IDs in the previous two files should correspond.
 * Simulated flows will be based on routes constructed by Flowprint from your NCOL file. Flowprint doesn't support loops or forks in routes right now. You'll have to define them as new routes.
 
-For trips:
+Trip Playback
+--------------
 
 * Add a trips CSV file in the 'dat' subfolder, with the naming convention MyNetworkName.trips, of the format:
 	
@@ -46,15 +46,17 @@ For trips:
 * Flowprint will search for your shortest paths file in the 'dat' subfolder, with naming convention MyNetworkName_shortest_paths.rdat
 * Support for multiple trip files exist. More doc on that soon.
 
-
-Configuration:
-
-* Coming soon...
-
-Weighted Networks:
+Weighted Networks
+-----------------
 
 * You can use the third column in your NCOL file to represent edge weights for visualisation. Switch on the 'attribs' configuration variable to visualise these weights in topology view.
 * Other node attributes can be loaded in via CSV files of the form MyNetworkName_attribute.csv. More doc on this soon, although this functionality is generally covered by other network packages such as [Gephi][gephi].
+
+
+Configuration
+-------------
+
+* Coming soon...
 
 
 Dependencies
