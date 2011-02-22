@@ -12,16 +12,16 @@
     float MAX_SPEED = 1.40;    
     static final int PANE_WIDTH = 1000;
     static final int PANE_HEIGHT = 800;  
-    static final int DEFAULT_NET = 4;
-    static final String DEFAULT_MODE = "flow";
+    static final int DEFAULT_NET = 0;
+    static final String DEFAULT_MODE = "topology";
     static final String ROOT_DIR = "/casa/Flowprint"; //change this
-    static final String VIDEO_FILE = "flowprint8.mov";
+    static final String VIDEO_FILE = "flowprint-oyster1.mov";
     static final String PDF_FILE = "reach-vis.pdf";
-    boolean debug = true;
+    boolean debug = false;
     boolean video = false;
     boolean attribs = false; //whether to visualise node attributes
     boolean trueAspectRatio = false;
-    boolean trails = true;
+    boolean trails = false;
     
   /**
   * CONFIGURATION END
@@ -66,7 +66,7 @@
         
         net = new Network();  
         net.init();
-        if(video) mm = new MovieMaker(this, width, height, VIDEO_FILE,
+        if(video) mm = new MovieMaker(this, 1000, 800, VIDEO_FILE,
         30, MovieMaker.SORENSON, MovieMaker.HIGH);
 
         background(#000000);
@@ -102,8 +102,13 @@
     {
         if(!trails) {
             background(#000000);
+            fill(#FFFFFF);            
+         } else {
+            noStroke();
+            fill(#000000,5);
+            rect(0,0,1600,1600);
             fill(#FFFFFF);          
-        }    
+          }
         cp.drawBG();
         net.run();  
         if(video) mm.addFrame();  // Add window's pixels to movie
