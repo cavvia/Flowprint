@@ -39,7 +39,8 @@ For trips:
 
 	[PATH1]\t[PATH2]\t[PATH3]
 
-Where each path is a comma delimited list of node IDs. The file describes a matrix Tij where each entry describes the shortest path from node i to node j. New rows in the matrix are delimited by a newline.
+* Where each path is a comma delimited list of node IDs. The file describes a matrix Tij where each entry describes the shortest path from node i to node j. New rows in the matrix are delimited by a newline.
+* This gives Flowprint the routing information required to visualise a trip from an origin to a destination.
 
 * Flowprint will search for your shortest paths file in the 'dat' subfolder, with naming convention MyNetworkName_shortest_paths.rdat
 
