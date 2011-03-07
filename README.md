@@ -17,7 +17,7 @@ Feature Summary
 
 Examples
 --------
-See the [London Bus Flowprint][flowprint] example.
+See the [London Bus Flowprint][flowprint] example. For trip playback, see the [London Oyster Flows][oyster], for topology view, see the [Boris Bikes][boris] flowprint.
 
 Basic Setup
 ------
@@ -71,3 +71,5 @@ You'll need the [Processing][processing] visualisation framework, as well as the
 [controlp5]:http://www.sojamo.de/libraries/controlP5/
 [igraph]: http://igraph.sourceforge.net/
 [gephi]:http://gephi.org/
+[oyster]:http://www.urbagram.net/v1/show/Oyster
+[boris]:http://www.urbagram.net/v1/show/Boris
